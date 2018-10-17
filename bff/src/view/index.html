@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css?family=Kalam" rel="stylesheet">
+    <title>Product Detail</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+  </head>
+  <body style="font-family: kalam, cursive; background-color: #C3CFCF;">
+    <div class="container-fluid">
+      <div class="row" style="margin: 1rem;">
+        <h3 class="mx-auto">Product Detail</h3>
+      </div>
+      <div class="row">
+        <% for(let i=0;i<productDetails.length;i++) { %>
+        <section class="col-sm-6">
+          <div class="card" style="padding: 0.3rem;margin: 0 0 0.3rem 0;">
+            <div class="card-body">
+              <h5 class="card-title"><%= productDetails[i].name %></h5>
+            </div>
+            <ul class="list-group list-group-flush">
+              <% productDetails[i].attributes.forEach((value, key) => {%>
+              <li class="list-group-item">
+                <div class="row">
+                  <div class="col-3"><%= productDetails[i].attributes[key].name %></div>
+                  <div class="col-8"><%= productDetails[i].attributes[key].value %></div>
+                </div>
+              </li>
+              <% }) %>
+            </ul>
+            <div class="card-body">
+              <p>
+                <% if(!productDetails[i].reviews.err) { %>
+                  <% if(productDetails[i].reviews.review_messages.length>0) { %>
+                  <button class="btn btn-secondary" type="button" data-toggle="collapse" data-target="#reviews<%= productDetails[i].product_id%>" aria-expanded="false" aria-controls="reviews<%= productDetails[i].product_id%>">
+                  <%= productDetails[i].reviews.review_messages.length %>
+                  <% if(productDetails[i].reviews.review_messages.length===1) { %>
+                  Review
+                  <% } else { %>
+                  Reviews
+                  <% } %>
+                  </button>
+                  <% } else {%>
+                  <button class="btn btn-secondary disabled" type="button" data-toggle="collapse" data-target="#reviews<%= productDetails[i].product_id%>" aria-expanded="false" aria-controls="reviews<%= productDetails[i].product_id%>">
+                  No Review
+                  </button>
+                  <% } %>
+                <% } else { %>
+                  <%= productDetails[i].reviews.err %>
+                <% } %>
+              </p>
+              <div class="collapse" id="reviews<%= productDetails[i].product_id%>">
+                <% if(!productDetails[i].reviews.err) { %>
+                <ul class="list-group list-group-flush">
+                  <li class="row">
+                    <div class="col-3">User</div>
+                    <div class="col-7">Comment</div>
+                    <div class="col-2">Rate</div>
+                  </li>
+                  <% for(let j=0;j<productDetails[i].reviews.review_messages.length;j++) { %>
+                  <li class="row">
+                    <div class="col-3"><%= productDetails[i].reviews.review_messages[j].reviewer_name %></div>
+                    <div class="col-7"><%= productDetails[i].reviews.review_messages[j].content %></div>
+                    <div class="col-2"><%= productDetails[i].reviews.review_messages[j].rate.rating %></div>
+                  </li>
+                  <% } %>
+                </ul>
+                <% } %>
+              </div>
+            </div>
+          </div>
+        </section>
+        <% } %>
+      </div>
+      <div class="row">
+        <footer class="mx-auto" style="padding: 0.5rem;">
+          <%= advertisement.description %>
+        </footer>
+      </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+  </body>
+</html>

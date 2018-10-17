@@ -1,0 +1,15 @@
+{
+  "review": {
+    "endpoint": "localhost:7100",
+    "timeout": 2
+  },
+  "advertisement": {
+    "endpoint": "localhost:7200",
+    "timeout": 2
+  },
+  "product": {
+    "endpoint": "http://localhost:8080",
+    "timeout": 2
+  }
+}
+

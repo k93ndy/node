@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package advertisement;
+
+// The greeting service definition.
+service Advertisement {
+  // request an advertisement info
+  rpc getRandomAdvertisement (Empty) returns (AdContent) {}
+}
+
+// The request message containing the user's name.
+message Empty {
+  
+}
+
+message AdContent {
+  string name = 1;
+  string description = 2;
+  string url = 3;
+  bytes image = 4;
+}
+
