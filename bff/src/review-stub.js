@@ -17,12 +17,20 @@ var packageDefinition = protoLoader.loadSync(
     });
 var review_proto = grpc.loadPackageDefinition(packageDefinition).review;
 
-async function GetMostHelpfulReviews(ProductInfo) {
+async function GetMostHelpfulReviews(ProductInfo, tracingHeaders) {
   var client = new review_proto.Review(config.review.endpoint,
                                        grpc.credentials.createInsecure());
   let timeout = new Date().setSeconds(new Date().getSeconds() + config.review.timeout)
+  let meta = new grpc.Metadata()
+  meta.set('deadline', timeout.toString())
+  if (tracingHeaders != null) {
+    Object.keys(tracingHeaders).forEach(tracingHeader => {
+      meta.set(tracingHeader, tracingHeaders[tracingHeader])
+    })
+  }
+
   return new Promise((resolve, reject) => {
-    client.GetMostHelpfulReviews(ProductInfo, {deadline: timeout}, function(err, res) {
+    client.GetMostHelpfulReviews(ProductInfo, meta, function(err, res) {
       grpc.closeClient(client)
       if(err) 
         reject(err);
